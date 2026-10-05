@@ -105,6 +105,8 @@ GET /api/v1/admin/users?limit=20&cursor=<opaque>
 
 **例外**：管理后台的表格页需要跳页，这类接口额外支持 `page` + `page_size`，但**返回的 `total` 必须是准确值**，不允许用估算值。
 
+**集合信封的适用范围**（第二轮对齐）：凡返回集合的端点——含不分页的目录类端点，如 `GET /api/v1/system/events`——统一把数组放在 `data.items`；不分页端点省略 `next_cursor` / `has_more` / `total`。**不存在 `data` 直接是数组的端点**，验收脚本一律取 `data.items` 计数（`docs/12` 的 M0 验收命令按此书写）。
+
 ### 1.6 时间格式
 
 - 输入输出统一 **RFC3339 UTC**：`2026-10-05T10:12:33Z`
