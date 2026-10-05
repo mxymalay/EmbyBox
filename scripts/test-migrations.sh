@@ -17,7 +17,7 @@ cd "$ROOT"
 
 GO="${GO:-go}"
 if ! command -v "$GO" >/dev/null 2>&1; then
-    for candidate in "$HOME/sdk/go/bin/go" /usr/local/go/bin/go /opt/homebrew/bin/go; do
+    for candidate in /opt/homebrew/bin/go /usr/local/go/bin/go "$HOME/.local/bin/go"; do
         if [[ -x "$candidate" ]]; then GO="$candidate"; break; fi
     done
 fi
