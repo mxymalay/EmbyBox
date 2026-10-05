@@ -8,7 +8,7 @@ import (
 
 // MediaServer 是媒体服务器能力。
 //
-// 它是"人"与"片"的交汇点：EmbyOne 通过它建号、改权限、查片库、取播放记录。
+// 它是"人"与"片"的交汇点：EmbyBox 通过它建号、改权限、查片库、取播放记录。
 // 任何实现了它的提供者（Emby / Jellyfin / Plex / 自研）都能被内核调度。
 //
 // 实现者注意：
@@ -63,7 +63,7 @@ type ServerInfo struct {
 
 // MSUser 是远端用户的投影。
 type MSUser struct {
-	// ID 远端用户 ID。EmbyOne 的 users.emby_id 存的就是它。
+	// ID 远端用户 ID。EmbyBox 的 users.emby_id 存的就是它。
 	ID string `json:"id"`
 	// Name 用户名。
 	Name string `json:"name"`
@@ -95,9 +95,9 @@ type Policy struct {
 	// Disabled 总开关：为 true 时用户完全无法播放。
 	Disabled bool `json:"disabled"`
 
-	// CanLogin 能否登录 EmbyOne 用户中心。
+	// CanLogin 能否登录 EmbyBox 用户中心。
 	//
-	// 注意：这**不是**媒体服务器的属性，是 EmbyOne 自己的判定结果。
+	// 注意：这**不是**媒体服务器的属性，是 EmbyBox 自己的判定结果。
 	// 放在这里是为了让"过期用户仍可登录续费"这条规则在策略里显式可见。
 	// 提供者在 ApplyPolicy 时应忽略它。
 	CanLogin bool `json:"can_login"`

@@ -16,12 +16,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/config"
-	"github.com/embyone/embyone/pkg/kernel/event"
-	"github.com/embyone/embyone/pkg/kernel/logx"
-	"github.com/embyone/embyone/pkg/kernel/plugin"
-	"github.com/embyone/embyone/pkg/kernel/registry"
-	"github.com/embyone/embyone/pkg/kernel/store"
+	"github.com/mxymalay/embybox/pkg/kernel/config"
+	"github.com/mxymalay/embybox/pkg/kernel/event"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/plugin"
+	"github.com/mxymalay/embybox/pkg/kernel/registry"
+	"github.com/mxymalay/embybox/pkg/kernel/store"
 )
 
 // App 是装配完成的运行时。

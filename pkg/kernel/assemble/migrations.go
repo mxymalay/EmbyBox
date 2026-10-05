@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/store"
+	"github.com/mxymalay/embybox/pkg/kernel/store"
 )
 
 // KernelMigrations 返回内核自身的迁移。

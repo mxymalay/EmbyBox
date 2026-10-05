@@ -7,11 +7,11 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/embyone/embyone/pkg/kernel/config"
-	"github.com/embyone/embyone/pkg/kernel/event"
-	"github.com/embyone/embyone/pkg/kernel/logx"
-	"github.com/embyone/embyone/pkg/kernel/registry"
-	"github.com/embyone/embyone/pkg/kernel/store"
+	"github.com/mxymalay/embybox/pkg/kernel/config"
+	"github.com/mxymalay/embybox/pkg/kernel/event"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/registry"
+	"github.com/mxymalay/embybox/pkg/kernel/store"
 )
 
 // Plugin 是内核认识的插件形态。

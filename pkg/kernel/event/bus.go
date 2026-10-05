@@ -1,4 +1,4 @@
-// Package event 是事件总线，也是 EmbyOne 唯一的扩展点机制。
+// Package event 是事件总线，也是 EmbyBox 唯一的扩展点机制。
 //
 // 为什么用事件而不是直接函数调用：
 //
@@ -19,7 +19,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/embyone/embyone/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
 )
 
 // Event 是一次事件派发。

@@ -1,4 +1,4 @@
-module github.com/embyone/embyone
+module github.com/mxymalay/embybox
 
 go 1.26.0
 

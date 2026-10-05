@@ -4,7 +4,7 @@ import "context"
 
 // Notifier 是通知渠道能力。
 //
-// EmbyOne 的所有对外消息（到期提醒、求片进度、告警）都通过它发出。
+// EmbyBox 的所有对外消息（到期提醒、求片进度、告警）都通过它发出。
 // 同一时刻可以有多个 Notifier 注册，内核按 Message.Channel 路由；
 // Channel 为空时扇出到全部渠道。
 type Notifier interface {

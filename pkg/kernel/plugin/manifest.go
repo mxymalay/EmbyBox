@@ -187,8 +187,8 @@ func (m *Manifest) Validate() error {
 	if m.APIVersion == "" {
 		return errors.New("清单缺少 apiVersion")
 	}
-	if m.APIVersion != "embyone.io/v1" {
-		return fmt.Errorf("不支持的 apiVersion %q（当前仅支持 embyone.io/v1）", m.APIVersion)
+	if m.APIVersion != "embybox.io/v1" {
+		return fmt.Errorf("不支持的 apiVersion %q（当前仅支持 embybox.io/v1）", m.APIVersion)
 	}
 	if m.Kind != "Plugin" {
 		return fmt.Errorf("kind 必须为 Plugin，得到 %q", m.Kind)

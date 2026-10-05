@@ -1,11 +1,11 @@
-# EmbyOne Makefile
+# EmbyBox Makefile
 #
 # 常用命令。查看全部：make help
 
 GO       ?= go
-BIN      ?= embyone
+BIN      ?= embybox
 BIN_DIR  ?= .
-CMD      ?= ./cmd/embyone
+CMD      ?= ./cmd/embybox
 
 # 版本信息嵌入二进制
 VERSION  ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)

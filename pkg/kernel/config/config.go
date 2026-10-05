@@ -54,12 +54,12 @@ type Config struct {
 
 // Load 从环境变量加载配置并做校验。
 //
-// 环境变量命名：EMBYONE_ 前缀 + 大写下划线。
+// 环境变量命名：EMBYBOX_ 前缀 + 大写下划线。
 //
-//	EMBYONE_HTTP_ADDR=:8080
-//	EMBYONE_DB_DRIVER=sqlite
-//	EMBYONE_DB_DSN=./data/embyone.db
-//	EMBYONE_SECRET_KEY=<32+ 字节随机串>
+//	EMBYBOX_HTTP_ADDR=:8080
+//	EMBYBOX_DB_DRIVER=sqlite
+//	EMBYBOX_DB_DSN=./data/embybox.db
+//	EMBYBOX_SECRET_KEY=<32+ 字节随机串>
 func Load() (*Config, error) {
 	cfg := &Config{
 		HTTPAddr:      env("HTTP_ADDR", ":8080"),
@@ -68,7 +68,7 @@ func Load() (*Config, error) {
 		TrustProxy:    envBool("TRUST_PROXY", false),
 		MetricsAddr:   env("METRICS_ADDR", ""),
 		DBDriver:      env("DB_DRIVER", "sqlite"),
-		DBDSN:         env("DB_DSN", "./data/embyone.db"),
+		DBDSN:         env("DB_DSN", "./data/embybox.db"),
 		SecretKey:     env("SECRET_KEY", ""),
 		SessionTTL:    envDuration("SESSION_TTL", 72*time.Hour),
 		AdminUser:     env("ADMIN_USER", "admin"),
@@ -142,14 +142,14 @@ func (c *Config) dbPathIsMemory() bool {
 // ────────────────────── 环境变量辅助 ──────────────────────
 
 func env(key, def string) string {
-	if v := strings.TrimSpace(os.Getenv("EMBYONE_" + key)); v != "" {
+	if v := strings.TrimSpace(os.Getenv("EMBYBOX_" + key)); v != "" {
 		return v
 	}
 	return def
 }
 
 func envBool(key string, def bool) bool {
-	v := strings.TrimSpace(os.Getenv("EMBYONE_" + key))
+	v := strings.TrimSpace(os.Getenv("EMBYBOX_" + key))
 	if v == "" {
 		return def
 	}
@@ -161,7 +161,7 @@ func envBool(key string, def bool) bool {
 }
 
 func envDuration(key string, def time.Duration) time.Duration {
-	v := strings.TrimSpace(os.Getenv("EMBYONE_" + key))
+	v := strings.TrimSpace(os.Getenv("EMBYBOX_" + key))
 	if v == "" {
 		return def
 	}
@@ -173,7 +173,7 @@ func envDuration(key string, def time.Duration) time.Duration {
 }
 
 func envList(key string, def []string) []string {
-	v := strings.TrimSpace(os.Getenv("EMBYONE_" + key))
+	v := strings.TrimSpace(os.Getenv("EMBYBOX_" + key))
 	if v == "" {
 		return def
 	}

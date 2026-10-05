@@ -1,4 +1,4 @@
-// Package contract 定义 EmbyOne 内核认识的**全部**抽象。
+// Package contract 定义 EmbyBox 内核认识的**全部**抽象。
 //
 // 设计铁律：本包不允许出现任何具体外部系统的名字。
 // 不出现 "emby"、"jellyfin"、"telegram"、"qbittorrent"——

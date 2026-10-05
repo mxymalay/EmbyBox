@@ -24,10 +24,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/config"
-	"github.com/embyone/embyone/pkg/kernel/contract"
-	"github.com/embyone/embyone/pkg/kernel/event"
-	"github.com/embyone/embyone/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/config"
+	"github.com/mxymalay/embybox/pkg/kernel/contract"
+	"github.com/mxymalay/embybox/pkg/kernel/event"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
 )
 
 // Deps 是构建 HTTP 服务的依赖。
@@ -220,7 +220,7 @@ func (s *Server) registerBuiltins() {
 	// 系统信息：公开，但**只暴露无敏感内容**的部分。
 	// 站点名、版本、运行时长可以让用户看到；插件清单、配置不在这里。
 	s.mux.HandleFunc("GET /api/v1/system/info", func(w http.ResponseWriter, r *http.Request) {
-		info := SystemInfo{Version: Version, Name: "EmbyOne", Timezone: s.deps.Cfg.Timezone}
+		info := SystemInfo{Version: Version, Name: "EmbyBox", Timezone: s.deps.Cfg.Timezone}
 		if s.deps.Info != nil {
 			info = s.deps.Info()
 		}

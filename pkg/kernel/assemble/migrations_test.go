@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/store"
+	"github.com/mxymalay/embybox/pkg/kernel/store"
 )
 
 // openTestDB 创建一个内存数据库用于测试。

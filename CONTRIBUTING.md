@@ -69,8 +69,8 @@
 
 ```bash
 # 1. 克隆
-git clone git@github.com:mxymalay/EmbyOne.git
-cd EmbyOne
+git clone git@github.com:mxymalay/EmbyBox.git
+cd EmbyBox
 
 # 2. 拉参考项目（可选，只在需要查竞品实现时用，约 170 MB）
 ./scripts/fetch-references.sh
@@ -83,7 +83,7 @@ cp .env.example .env
 go test ./... -race
 
 # 5. 启动
-go run ./cmd/embyone
+go run ./cmd/embybox
 ```
 
 **环境要求**：Go 1.25+。不需要 Node（前端资源内嵌）、不需要数据库（默认 SQLite）。

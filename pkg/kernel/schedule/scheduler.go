@@ -18,9 +18,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/event"
-	"github.com/embyone/embyone/pkg/kernel/logx"
-	"github.com/embyone/embyone/pkg/kernel/store"
+	"github.com/mxymalay/embybox/pkg/kernel/event"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/store"
 )
 
 // JobSpec 是一个待注册的任务。

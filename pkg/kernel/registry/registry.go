@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/embyone/embyone/pkg/kernel/contract"
+	"github.com/mxymalay/embybox/pkg/kernel/contract"
 )
 
 // ErrNotFound 表示注册表里没有可用的该能力。

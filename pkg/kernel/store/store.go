@@ -23,7 +23,7 @@ import (
 
 	_ "modernc.org/sqlite" // 纯 Go SQLite 驱动，无 CGO
 
-	"github.com/embyone/embyone/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
 )
 
 // Dialect 是数据库方言。

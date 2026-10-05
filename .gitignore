@@ -15,8 +15,8 @@ data/
 .env.*.local
 
 # ── 构建产物 ─────────────────────────────────────
-/embyone
-/embyone-*
+/embybox
+/embybox-*
 /dist/
 web/dist/
 

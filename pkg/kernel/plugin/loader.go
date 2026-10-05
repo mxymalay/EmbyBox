@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/embyone/embyone/pkg/kernel/logx"
+	"github.com/mxymalay/embybox/pkg/kernel/logx"
 )
 
 // Discovery 是一次插件发现的结果。
