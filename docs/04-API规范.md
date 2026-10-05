@@ -137,6 +137,8 @@ X-RateLimit-Reset: 1770000000
 
 **关键约定**：涉及认证的接口（登录、注册、找回密码、TG 绑定），**失败的请求同样消耗配额**。否则攻击者可以通过"成功了才计数"的差异来枚举账号。
 
+**默认桶与覆盖**：§2 中标注"默认"的接口使用默认桶——按认证主体（未认证按 IP）60 次/分钟；显式标注（如 `10/m`）覆盖默认值。涉及远端调用或批量生成的昂贵操作必须显式声明，不得落在默认桶。多桶同时命中时，**最先阻断的那个桶生效**，`X-RateLimit-*` 响应头描述该桶（第二轮 D18：限流声明是 §2 每张接口表的必备列，与 docs/08-安全设计.md 的"新接口有明确的限流声明"对应）。
+
 ---
 
 ## 2. 接口总览
@@ -158,67 +160,67 @@ X-RateLimit-Reset: 1770000000
 
 ### 2.2 用户接口（`auth: user`）
 
-| 方法 | 路径 | 用途 |
-|---|---|---|
-| GET | `/api/v1/user/profile` | 我的资料 |
-| PATCH | `/api/v1/user/profile` | 修改资料（邮箱等） |
-| POST | `/api/v1/user/password` | 修改密码 |
-| POST | `/api/v1/user/logout` | 登出 |
-| GET | `/api/v1/user/entitlements` | 我的会员权益 |
-| GET | `/api/v1/user/points` | 积分余额与流水 |
-| POST | `/api/v1/user/points/checkin` | 每日签到 |
-| GET | `/api/v1/user/orders` | 我的订单 |
-| POST | `/api/v1/user/redeem` | 兑换卡密 |
-| GET | `/api/v1/user/playback` | 播放记录 |
-| GET | `/api/v1/user/reports/{period}` | 观影报告 |
-| GET | `/api/v1/user/requests` | 我的求片 |
-| POST | `/api/v1/user/requests` | 提交求片 |
-| GET | `/api/v1/user/requests/{id}` | 求片详情（含步骤流水） |
-| POST | `/api/v1/user/requests/{id}/cancel` | 撤销求片 |
-| POST | `/api/v1/user/requests/{id}/bump` | 免费顶帖 |
-| GET | `/api/v1/user/routes` | 可用线路 |
-| GET | `/api/v1/user/notifications` | 通知 |
-| POST | `/api/v1/user/notifications/read` | 标记已读 |
-| GET | `/api/v1/user/tickets` | 我的工单 |
-| POST | `/api/v1/user/tickets` | 提交工单 |
-| POST | `/api/v1/user/telegram/bind-code` | 获取 TG 绑定码 |
+| 方法 | 路径 | 用途 | 限流 |
+|---|---|---|---|
+| GET | `/api/v1/user/profile` | 我的资料 | 默认 |
+| PATCH | `/api/v1/user/profile` | 修改资料（邮箱等） | 默认 |
+| POST | `/api/v1/user/password` | 修改密码 | 5/m |
+| POST | `/api/v1/user/logout` | 登出 | 默认 |
+| GET | `/api/v1/user/entitlements` | 我的会员权益 | 默认 |
+| GET | `/api/v1/user/points` | 积分余额与流水 | 默认 |
+| POST | `/api/v1/user/points/checkin` | 每日签到 | 10/m（另有业务日配额） |
+| GET | `/api/v1/user/orders` | 我的订单 | 默认 |
+| POST | `/api/v1/user/redeem` | 兑换卡密 | 10/m |
+| GET | `/api/v1/user/playback` | 播放记录 | 默认 |
+| GET | `/api/v1/user/reports/{period}` | 观影报告 | 30/m |
+| GET | `/api/v1/user/requests` | 我的求片 | 默认 |
+| POST | `/api/v1/user/requests` | 提交求片 | 10/m（另有业务配额） |
+| GET | `/api/v1/user/requests/{id}` | 求片详情（含步骤流水） | 默认 |
+| POST | `/api/v1/user/requests/{id}/cancel` | 撤销求片 | 30/m |
+| POST | `/api/v1/user/requests/{id}/bump` | 免费顶帖 | 30/m（另有 12 小时冷却） |
+| GET | `/api/v1/user/routes` | 可用线路 | 默认 |
+| GET | `/api/v1/user/notifications` | 通知 | 默认 |
+| POST | `/api/v1/user/notifications/read` | 标记已读 | 默认 |
+| GET | `/api/v1/user/tickets` | 我的工单 | 默认 |
+| POST | `/api/v1/user/tickets` | 提交工单 | 10/m |
+| POST | `/api/v1/user/telegram/bind-code` | 获取 TG 绑定码 | 5/m |
 
 ### 2.3 管理接口（`auth: admin`）
 
-| 方法 | 路径 | 用途 |
-|---|---|---|
-| GET | `/api/v1/admin/users` | 用户列表 |
-| POST | `/api/v1/admin/users` | 创建用户 |
-| GET | `/api/v1/admin/users/{id}` | 用户详情 |
-| PATCH | `/api/v1/admin/users/{id}` | 修改用户 |
-| POST | `/api/v1/admin/users/{id}/status` | 改状态（封禁/解封/审批） |
-| POST | `/api/v1/admin/users/{id}/entitlements` | 发放/延长权益 |
-| POST | `/api/v1/admin/users/{id}/reset-password` | 重置密码 |
-| POST | `/api/v1/admin/users/batch` | 批量操作 |
-| GET | `/api/v1/admin/plan-groups` | 权益档位列表 |
-| POST | `/api/v1/admin/plan-groups` | 新建档位 |
-| PATCH | `/api/v1/admin/plan-groups/{id}` | 修改档位 |
-| PUT | `/api/v1/admin/plan-groups/{id}/policy` | 设置片库权限（★ 卖差价的入口） |
-| GET | `/api/v1/admin/plans` | 套餐列表 |
-| POST | `/api/v1/admin/plans` | 新建套餐 |
-| GET | `/api/v1/admin/redeem/batches` | 卡密批次 |
-| POST | `/api/v1/admin/redeem/batches` | 生成批次 |
-| POST | `/api/v1/admin/redeem/batches/{id}/revoke` | 作废批次 |
-| GET | `/api/v1/admin/requests` | 求片列表 |
-| POST | `/api/v1/admin/requests/{id}/retry` | 重试求片 |
-| POST | `/api/v1/admin/requests/{id}/resolve` | 人工完成 |
-| GET | `/api/v1/admin/servers` | 媒体服务器列表 |
-| POST | `/api/v1/admin/servers` | 添加服务器 |
-| POST | `/api/v1/admin/servers/{id}/test` | 连接测试 |
-| GET | `/api/v1/admin/plugins` | 插件列表 |
-| POST | `/api/v1/admin/plugins/{id}/permissions` | 调整插件权限 |
-| GET | `/api/v1/admin/jobs` | 任务列表 |
-| PATCH | `/api/v1/admin/jobs/{id}` | 改调度/开关 |
-| POST | `/api/v1/admin/jobs/{id}/run` | 立即执行（支持 dry_run） |
-| GET | `/api/v1/admin/audit` | 审计日志 |
-| GET | `/api/v1/admin/settings` | 系统设置 |
-| PUT | `/api/v1/admin/settings` | 保存设置 |
-| GET | `/api/v1/admin/system/routes` | 已注册的 HTTP 路由清单 |
+| 方法 | 路径 | 用途 | 限流 |
+|---|---|---|---|
+| GET | `/api/v1/admin/users` | 用户列表 | 默认 |
+| POST | `/api/v1/admin/users` | 创建用户 | 默认 |
+| GET | `/api/v1/admin/users/{id}` | 用户详情 | 默认 |
+| PATCH | `/api/v1/admin/users/{id}` | 修改用户 | 默认 |
+| POST | `/api/v1/admin/users/{id}/status` | 改状态（封禁/解封/审批） | 默认 |
+| POST | `/api/v1/admin/users/{id}/entitlements` | 发放/延长权益 | 30/m |
+| POST | `/api/v1/admin/users/{id}/reset-password` | 重置密码 | 10/m |
+| POST | `/api/v1/admin/users/batch` | 批量操作 | 10/m |
+| GET | `/api/v1/admin/plan-groups` | 权益档位列表 | 默认 |
+| POST | `/api/v1/admin/plan-groups` | 新建档位 | 默认 |
+| PATCH | `/api/v1/admin/plan-groups/{id}` | 修改档位 | 默认 |
+| PUT | `/api/v1/admin/plan-groups/{id}/policy` | 设置片库权限（★ 卖差价的入口） | 默认 |
+| GET | `/api/v1/admin/plans` | 套餐列表 | 默认 |
+| POST | `/api/v1/admin/plans` | 新建套餐 | 默认 |
+| GET | `/api/v1/admin/redeem/batches` | 卡密批次 | 默认 |
+| POST | `/api/v1/admin/redeem/batches` | 生成批次 | 5/m（昂贵，批量生成） |
+| POST | `/api/v1/admin/redeem/batches/{id}/revoke` | 作废批次 | 30/m |
+| GET | `/api/v1/admin/requests` | 求片列表 | 默认 |
+| POST | `/api/v1/admin/requests/{id}/retry` | 重试求片 | 30/m |
+| POST | `/api/v1/admin/requests/{id}/resolve` | 人工完成 | 30/m |
+| GET | `/api/v1/admin/servers` | 媒体服务器列表 | 默认 |
+| POST | `/api/v1/admin/servers` | 添加服务器 | 默认 |
+| POST | `/api/v1/admin/servers/{id}/test` | 连接测试 | 10/m（昂贵，触发远端调用） |
+| GET | `/api/v1/admin/plugins` | 插件列表 | 默认 |
+| POST | `/api/v1/admin/plugins/{id}/permissions` | 调整插件权限 | 30/m |
+| GET | `/api/v1/admin/jobs` | 任务列表 | 默认 |
+| PATCH | `/api/v1/admin/jobs/{id}` | 改调度/开关 | 默认 |
+| POST | `/api/v1/admin/jobs/{id}/run` | 立即执行（支持 dry_run） | 10/m |
+| GET | `/api/v1/admin/audit` | 审计日志 | 默认 |
+| GET | `/api/v1/admin/settings` | 系统设置 | 默认 |
+| PUT | `/api/v1/admin/settings` | 保存设置 | 30/m |
+| GET | `/api/v1/admin/system/routes` | 已注册的 HTTP 路由清单 | 默认 |
 
 ---
 
@@ -336,7 +338,7 @@ GET /api/v1/user/requests/{id}
     "points_cost": 50,
     "points_refunded": 0,
     "created_at": "2026-10-05T09:00:00Z",
-    "can_cancel": true,
+    "can_cancel": false,
     "can_bump": false,
     "next_bump_at": "2026-10-05T21:00:00Z",
     "steps": [
@@ -549,7 +551,10 @@ data: {"id":"01JCVZ...","title":"你的会员即将到期","level":"warn"}
 | `account_pending` | 账号待审批 |
 | `expired` | 账号已过期（该接口需要播放权限） |
 | `forbidden` | 权限不足 |
+| `invalid_api_key` | 管理 API Key 无效或已撤销（仅 `apikey` 级路由；HTTP 403 + code 4030） |
 | `turnstile_failed` | 人机验证失败 |
+
+> **`invalid_api_key` 与 `forbidden` 的分界**：Key 本身无效/已撤销用 `invalid_api_key`；持有有效 Key 但访问其授权范围之外的操作用 `forbidden`（第二轮 D06——此前 `invalid_api_key` 只出现在 §1.4 鉴权规则里，错误字典缺失）。
 
 **用户类**
 | kind | 触发场景 |
