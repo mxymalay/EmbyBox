@@ -49,15 +49,15 @@ type Metadata struct {
 
 // Spec 是插件的行为声明。
 type Spec struct {
-	Requires    []Requirement `yaml:"requires"`
-	Permissions []string      `yaml:"permissions"`
-	AllowedHosts []string     `yaml:"allowed_hosts"`
-	Config      []ConfigField `yaml:"config"`
-	Hooks       []Hook        `yaml:"hooks"`
-	Routes      []Route       `yaml:"routes"`
-	Jobs        []Job         `yaml:"jobs"`
-	Schema      *SchemaSpec   `yaml:"schema"`
-	Execution   Execution     `yaml:"execution"`
+	Requires     []Requirement `yaml:"requires"`
+	Permissions  []string      `yaml:"permissions"`
+	AllowedHosts []string      `yaml:"allowed_hosts"`
+	Config       []ConfigField `yaml:"config"`
+	Hooks        []Hook        `yaml:"hooks"`
+	Routes       []Route       `yaml:"routes"`
+	Jobs         []Job         `yaml:"jobs"`
+	Schema       *SchemaSpec   `yaml:"schema"`
+	Execution    Execution     `yaml:"execution"`
 }
 
 // Requirement 是插件依赖。
@@ -68,15 +68,15 @@ type Requirement struct {
 
 // ConfigField 描述一个配置项，前端据此自动渲染表单。
 type ConfigField struct {
-	Key         string        `yaml:"key" json:"key"`
-	Type        string        `yaml:"type" json:"type"` // string|secret|number|bool|enum|duration|multiselect|object|list
-	Label       string        `yaml:"label" json:"label"`
-	Description string        `yaml:"description" json:"description"`
-	Required    bool          `yaml:"required" json:"required"`
-	Default     any           `yaml:"default" json:"default"`
+	Key         string         `yaml:"key" json:"key"`
+	Type        string         `yaml:"type" json:"type"` // string|secret|number|bool|enum|duration|multiselect|object|list
+	Label       string         `yaml:"label" json:"label"`
+	Description string         `yaml:"description" json:"description"`
+	Required    bool           `yaml:"required" json:"required"`
+	Default     any            `yaml:"default" json:"default"`
 	Options     []ConfigOption `yaml:"options" json:"options,omitempty"`
-	Fields      []ConfigField `yaml:"fields" json:"fields,omitempty"` // type=object 时的子字段
-	Item        *ConfigField  `yaml:"item" json:"item,omitempty"`     // type=list 时的元素定义
+	Fields      []ConfigField  `yaml:"fields" json:"fields,omitempty"` // type=object 时的子字段
+	Item        *ConfigField   `yaml:"item" json:"item,omitempty"`     // type=list 时的元素定义
 }
 
 // ConfigOption 是 enum / multiselect 的取值。
@@ -115,25 +115,25 @@ type Job struct {
 
 // SchemaSpec 是声明式表结构（L0/L1 用）。
 type SchemaSpec struct {
-	Version int           `yaml:"version" json:"version"`
-	Tables  []TableSpec   `yaml:"tables" json:"tables"`
+	Version int         `yaml:"version" json:"version"`
+	Tables  []TableSpec `yaml:"tables" json:"tables"`
 }
 
 // TableSpec 是一张表。
 type TableSpec struct {
-	Name    string        `yaml:"name" json:"name"`
-	Columns []ColumnSpec  `yaml:"columns" json:"columns"`
-	Indexes []IndexSpec   `yaml:"indexes" json:"indexes"`
+	Name    string       `yaml:"name" json:"name"`
+	Columns []ColumnSpec `yaml:"columns" json:"columns"`
+	Indexes []IndexSpec  `yaml:"indexes" json:"indexes"`
 }
 
 // ColumnSpec 是一列。
 type ColumnSpec struct {
-	Name       string `yaml:"name" json:"name"`
-	Type       string `yaml:"type" json:"type"` // text|integer|real|bool|datetime|json
-	Primary    bool   `yaml:"primary" json:"primary"`
-	Unique     bool   `yaml:"unique" json:"unique"`
-	NotNull    bool   `yaml:"notNull" json:"not_null"`
-	Default    any    `yaml:"default" json:"default"`
+	Name    string `yaml:"name" json:"name"`
+	Type    string `yaml:"type" json:"type"` // text|integer|real|bool|datetime|json
+	Primary bool   `yaml:"primary" json:"primary"`
+	Unique  bool   `yaml:"unique" json:"unique"`
+	NotNull bool   `yaml:"notNull" json:"not_null"`
+	Default any    `yaml:"default" json:"default"`
 }
 
 // IndexSpec 是一个索引。

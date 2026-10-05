@@ -60,9 +60,9 @@ func Boot(ctx context.Context, cfg *config.Config, log logx.Logger) (*App, error
 	}
 
 	app := &App{
-		Cfg:   cfg,
-		Log:   log,
-		Envs:  make(map[string]*plugin.Env),
+		Cfg:       cfg,
+		Log:       log,
+		Envs:      make(map[string]*plugin.Env),
 		startedAt: time.Now(),
 	}
 

@@ -278,6 +278,8 @@ embyone/
 
 ## 参与
 
+**先读 [CONTRIBUTING.md](CONTRIBUTING.md)** —— 里面写清了欢迎什么、拒绝什么，以及关于 AI 生成代码的要求。发现安全问题请走 [SECURITY.md](SECURITY.md)，不要开公开 issue。
+
 ### 如果你会写代码
 
 - 读 [开发规范](docs/09-开发规范.md)，从 M0 的待补齐项开始
@@ -313,11 +315,17 @@ embyone/
 
 ## 许可证
 
-**核心：AGPL-3.0**（待正式开源时确认）
+**核心：AGPL-3.0** — 全文见 [LICENSE](LICENSE)
+
+```
+EmbyOne
+Copyright (C) 2026 EmbyOne Contributors
+SPDX-License-Identifier: AGPL-3.0-or-later
+```
 
 选择 AGPL 的理由：它保证任何基于本项目的网络服务都必须开源，防止有人拿去做闭源商业服务。如果你需要闭源集成，可以购买商业授权。
 
-**专业版：商业授权**
+**专业版：商业授权**（独立代码库，不吸收社区贡献）
 
 **我们承诺**：已经以 AGPL 发布的版本不会收回，不会变更许可证。
 

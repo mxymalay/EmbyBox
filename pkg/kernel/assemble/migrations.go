@@ -157,7 +157,7 @@ const instanceLockTTL = 15 * time.Minute
 //
 // 实现说明：用「先清理过期 → 再判定归属 → 插入或续期」三步。
 // SQLite 没有 SELECT FOR UPDATE，但写连接被限制为单条
-//（store.Open 里 MaxOpenConns=1），加上主键约束，足以保证互斥。
+// （store.Open 里 MaxOpenConns=1），加上主键约束，足以保证互斥。
 // 接入 PostgreSQL 后此处应改为 pg_advisory_lock。
 func acquireInstanceLock(ctx context.Context, db *store.DB, name string) (bool, error) {
 	now := time.Now().UTC()

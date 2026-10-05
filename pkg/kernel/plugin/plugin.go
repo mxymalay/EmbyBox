@@ -163,7 +163,7 @@ func Builtins() []Plugin {
 // 只覆写自己关心的方法。
 //
 // 用内嵌而不是强制实现四个方法，是为了让最简单的插件
-//（只需要 Register 订阅一个事件）只有十几行代码。
+// （只需要 Register 订阅一个事件）只有十几行代码。
 type BasePlugin struct {
 	manifest *Manifest
 }
